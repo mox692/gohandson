@@ -37,6 +37,7 @@ type errorWriter struct {
 // フィールドにエラーが設定されていたらそのエラーを返す
 func (w *errorWriter) Write(p []byte) (n int, err error) {
 	// TODO: フィールドに設定されているエラーを返す
+	return 0, w.Err
 }
 
 // Greeting.Doメソッドのテスト
@@ -61,7 +62,9 @@ func TestGreeting_Do(t *testing.T) {
 	}
 
 	for n, tt := range cases {
+		// !?
 		tt := tt
+		// !?
 		t.Run(n, func(t *testing.T) {
 			g := greeting.Greeting{
 				Clock: tt.clock,
@@ -72,7 +75,7 @@ func TestGreeting_Do(t *testing.T) {
 			case err == nil && tt.expectErr:
 				t.Error("expected error did not occur")
 			// エラーは期待してないのにエラーが発生した
-			case /* TODO: 条件 */:
+			case err != nil && !(tt.expectErr):
 				t.Error("unexpected error:", err)
 			}
 

@@ -12,15 +12,20 @@ import (
 
 // "YYYY/MM/DD hh:mm:ss" 形式の時刻を返すようなgreeting.Clockを作る
 // 引数にtesting.Tと文字列で表した時刻を取得する
-func mockClock( /* TODO: 引数を決める */ ) greeting.Clock {
+func mockClock(t *testing.T, getTime string) greeting.Clock {
 	// TODO: ヘルパーであることを明示する
+	t.Helper()
 
-	now, err := time.Parse("2006/01/02 15:04:05", v)
+	now, err := time.Parse("2006/01/02 15:04:05", getTime)
 	if err != nil {
 		// TODO: エラーが発生した場合はテスト中断させエラーにする
+		t.Fatalf("err")
 	}
 
 	// TODO: nowを返す関数を作り、greeting.ClockFuncにキャストして返す
+	return greeting.ClockFunc(func() time.Time {
+		return now
+	})
 }
 
 // Greeting.Doメソッドのテスト
